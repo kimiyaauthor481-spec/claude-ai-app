@@ -1,23 +1,58 @@
-<script>
-async function sendMessage() {
-  const message = document.getElementById("input").value;
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Claude AI Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+    }
+    button {
+      padding: 10px;
+    }
+    #output {
+      margin-top: 20px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
 
-  try {
-    const res = await fetch("/api/index", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ message })
-    });
+<body>
+  <h2>Claude AI Chat</h2>
 
-    const data = await res.json();
+  <input id="input" placeholder="Type your message..." />
+  <button onclick="sendMessage()">Send</button>
 
-    document.getElementById("output").innerText =
-      data.reply || data.error || "No response from server";
-  } catch (err) {
-    document.getElementById("output").innerText =
-      "Error: " + err.message;
-  }
-}
-</script>
+  <div id="output"></div>
+
+  <script>
+    async function sendMessage() {
+      const message = document.getElementById("input").value;
+      document.getElementById("output").innerText = "Thinking...";
+
+      try {
+        const res = await fetch("/api/index", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+
+        document.getElementById("output").innerText =
+          data.reply || data.error || "No response";
+      } catch (err) {
+        document.getElementById("output").innerText =
+          "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
