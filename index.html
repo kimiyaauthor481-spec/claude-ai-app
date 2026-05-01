@@ -16,7 +16,7 @@
     async function sendMessage() {
       const message = document.getElementById("input").value;
 
-      const res = await fetch("/api", {
+      const res = await fetch("/api/index", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
